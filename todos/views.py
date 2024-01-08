@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.views.generic import ListView
 
+from .models import Todo
 
-def home(request):
-    return render(request, "todos/home.html")
+class TodoListView(ListView):
+    model = Todo
