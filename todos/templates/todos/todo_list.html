@@ -28,11 +28,16 @@ Lista de tarefas
                   <td>{{ todo.deadline }}</td>
                   <td>{{ todo.finished_at|default:"-" }}</td>
                   <td>
+                    
+                    <a href="{% url "complete" pk=todo.pk %}" class="btn btn-outline-success btn-sm {% if todo.finished_at %} btn-success disabled {% endif %} ">
+                      {% if todo.finished_at %}
+                      Concluído!
+                      {% else %}
+                      Concluir
+                      {% endif %}
+                    </a>
                     {% if not todo.finished_at %}
-                    <a href="{% url "complete" pk=todo.pk %}" class="btn btn-outline-success btn-sm">Concluir</a>
-                    <a href="{% url "update" pk=todo.pk%}" class="btn btn-outline-warning btn-sm">Editar</a>
-                    {% else %}
-                    <i class="fas fa-smile"></i>
+                    <a href="{% url "update" pk=todo.pk%}" class="btn btn-outline-warning btn-sm">Editar</a>                    
                     {% endif %}
                     <a href="{% url "delete" pk=todo.pk%}" class="btn btn-outline-danger btn-sm">Excluir</a>
                   </td>
