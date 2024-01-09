@@ -1,3 +1,52 @@
-<h1>
-    Lista de Tarefas
-</h1>
+{% extends 'base.html' %}
+{%load static%}
+
+{% block page_title %}
+Lista de tarefas
+{% endblock page_title %}
+{% block content %}
+        <h1>
+            Lista de Tarefas
+        </h1>
+        {% if todo_list %}
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Título</th>
+                <th scope="col">Criado em</th>
+                <th scope="col">Due date</th>
+                <th scope="col">Finalizado em</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for todo in todo_list %}
+                <tr>
+                  <th scope="row">{{ todo.pk }}</th>
+                  <td>{{ todo.title }}</td>
+                  <td>{{ todo.created_at }}</td>
+                  <td>{{ todo.deadline }}</td>
+                  <td>{{ todo.finished_at|default:"-" }}</td>
+                  <td>
+                    {% if not todo.finished_at %}
+                    <a href="{% url "complete" pk=todo.pk %}" class="btn btn-outline-success btn-sm">Concluir</a>
+                    <a href="{% url "update" pk=todo.pk%}" class="btn btn-outline-warning btn-sm">Editar</a>
+                    {% else %}
+                    <i class="fas fa-smile"></i>
+                    {% endif %}
+                    <a href="{% url "delete" pk=todo.pk%}" class="btn btn-outline-danger btn-sm">Excluir</a>
+                  </td>
+                </tr>
+                {% endfor  %}
+            </tbody>
+          </table>
+          {% else %}
+            <div class="empty-list">
+              <div class="d-flex justify-content-center">
+                <img src="{% static 'img/todolistempty.png' %}" alt="No Tasks" class="img-fluid w-50">
+            </div>
+            </div>
+          {% endif %}
+          <a href="{%url 'create'%}" class="btn btn-primary">Nova tarefa</a>
+
+{% endblock content %}
